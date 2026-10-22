@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wholesale Deal Analyzer — Real Estate Investor Toolkit</title>
+<style>
+  :root{
+    --navy:#0f2a44;
+    --navy-light:#1b3a5c;
+    --gold:#c9a227;
+    --bg:#f2f4f7;
+    --card:#ffffff;
+    --ink:#1c2733;
+    --muted:#5a6a7a;
+    --line:#dde3ea;
+    --good:#1e7a3c;
+    --warn:#9a6b00;
+    --bad:#b3261e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px;}
+  header{
+    background:linear-gradient(135deg,var(--navy),var(--navy-light));
+    color:#fff;
+    border-radius:14px;
+    padding:28px 24px;
+    margin-bottom:18px;
+    border-bottom:4px solid var(--gold);
+  }
+  header h1{font-size:1.65rem;line-height:1.2;margin-bottom:6px;}
+  header p{color:#cfdce9;font-size:0.98rem;}
+  header a{color:var(--gold);text-decoration:none;font-size:0.85rem;font-weight:600;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:16px;
+  }
+  .card h2{font-size:1.1rem;color:var(--navy);margin-bottom:4px;}
+  .card .sub{color:var(--muted);font-size:0.88rem;margin-bottom:14px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:560px){.grid{grid-template-columns:1fr;}}
+  label{display:block;font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:5px;}
+  .hint{font-weight:400;color:var(--muted);font-size:0.78rem;}
+  input[type="number"],input[type="text"]{
+    width:100%;
+    padding:11px 12px;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:#fbfcfd;
+    color:var(--ink);
+  }
+  input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold);}
+  .result{
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    background:#fffdf6;
+  }
+  .result h3{font-size:0.95rem;color:var(--navy);margin-bottom:2px;}
+  .result .big{font-size:1.7rem;font-weight:800;color:var(--navy);line-height:1.25;}
+  .result p{font-size:0.88rem;color:var(--ink);margin-top:4px;}
+  .rows{margin-top:6px;}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:0.95rem;}
+  .row:last-child{border-bottom:none;}
+  .row .k{color:var(--muted);}
+  .row .v{font-weight:700;color:var(--navy);white-space:nowrap;}
+  .verdict{
+    border-radius:10px;
+    padding:18px;
+    text-align:center;
+    margin-bottom:14px;
+    border:1px solid var(--line);
+  }
+  .verdict .word{font-size:1.9rem;font-weight:800;letter-spacing:0.02em;line-height:1.2;}
+  .verdict p{font-size:0.88rem;margin-top:4px;}
+  .verdict.deal{background:#e9f6ee;color:var(--good);}
+  .verdict.tight{background:#fdf3d3;color:var(--warn);}
+  .verdict.walk{background:#fbeae8;color:var(--bad);}
+  .est{
+    display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+    text-transform:uppercase;color:#7a6410;background:#f7ecc8;
+    border-radius:4px;padding:2px 7px;vertical-align:middle;margin-left:6px;
+  }
+  .disclaimer{
+    background:#eef1f5;border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;font-size:0.82rem;color:var(--muted);margin-bottom:16px;
+  }
+  .disclaimer strong{color:var(--navy);}
+  .tkbanner{
+    background:var(--navy);color:#fff;border-radius:12px;
+    padding:16px 18px;margin-bottom:16px;font-size:0.9rem;
+  }
+  .tkbanner a{color:var(--gold);font-weight:700;text-decoration:none;}
+  footer{text-align:center;color:var(--muted);font-size:0.78rem;margin-top:22px;}
+  footer a{color:var(--navy);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a href="index.html">&larr; All tools</a>
+    <h1>Wholesale Deal Analyzer</h1>
+    <p>Run the numbers on a wholesale deal in seconds — maximum allowable offer, spread, achievable assignment fee, and a plain verdict.</p>
+  </header>
+
+  <div class="disclaimer">
+    <strong>Educational estimates only.</strong> Every figure on this page is an estimate for planning and education. This is <strong>not financial, tax, or legal advice</strong>. Verify repair costs, values, and contract terms before making an offer.
+  </div>
+
+  <div class="card">
+    <h2>Deal inputs</h2>
+    <p class="sub">Results update as you type. The spreadsheet example is preloaded — replace it with your deal.</p>
+    <div class="grid">
+      <div style="grid-column:1 / -1;">
+        <label for="address">Property address <span class="hint">— optional, for your notes</span></label>
+        <input type="text" id="address" placeholder="Example property">
+      </div>
+      <div>
+        <label for="arv">ARV — after-repair value ($)</label>
+        <input type="number" id="arv" inputmode="decimal" min="0" value="250000">
+      </div>
+      <div>
+        <label for="repairs">Estimated repair costs ($)</label>
+        <input type="number" id="repairs" inputmode="decimal" min="0" value="35000">
+      </div>
+      <div>
+        <label for="asking">Asking price ($)</label>
+        <input type="number" id="asking" inputmode="decimal" min="0" value="125000">
+      </div>
+      <div>
+        <label for="fee">Desired assignment fee ($)</label>
+        <input type="number" id="fee" inputmode="decimal" min="0" value="10000">
+      </div>
+      <div>
+        <label for="closing">Closing / holding cost estimate ($)</label>
+        <input type="number" id="closing" inputmode="decimal" min="0" value="5000">
+      </div>
+      <div>
+        <label for="factor">Investor purchase factor <span class="hint">— 0.70 is the classic 70% rule</span></label>
+        <input type="number" id="factor" inputmode="decimal" min="0" max="1" step="0.01" value="0.70">
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict deal" id="verdictBox">
+    <div class="word" id="verdictWord">DEAL</div>
+    <p id="verdictDetail"></p>
+  </div>
+
+  <div class="result">
+    <h3>The numbers<span class="est">Estimate</span></h3>
+    <div class="rows">
+      <div class="row"><span class="k">Maximum allowable offer (MAO)</span><span class="v" id="maoOut">$0</span></div>
+      <div class="row"><span class="k">Spread at asking price</span><span class="v" id="spreadOut">$0</span></div>
+      <div class="row"><span class="k">Assignment fee achievable</span><span class="v" id="feeOut">$0</span></div>
+      <div class="row"><span class="k">Total cash needed (asking + repairs + closing/holding)</span><span class="v" id="cashOut">$0</span></div>
+    </div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-top:10px;">
+      How it works: MAO = ARV &times; investor purchase factor &minus; repairs &minus; your desired fee.
+      <strong>DEAL</strong> — asking price is at or below MAO. <strong>TIGHT</strong> — a fee is achievable but below your target.
+      <strong>WALK AWAY</strong> — no fee remains at the selected purchase factor.
+    </p>
+  </div>
+
+  <div class="tkbanner">
+    <strong>Want the full kit?</strong> The Real Estate Investor Toolkit adds the Rental Property and VA House-Hack analyzers, the spreadsheet with comps log and pipeline tracker, the buy box worksheet, and offer scripts.
+    <a href="index.html#toolkit">See what's inside &rarr;</a>
+  </div>
+
+  <footer>
+    Wholesale Deal Analyzer · Real Estate Investor Toolkit · Educational tool only — not financial, tax, or legal advice.<br>
+    <a href="index.html">Back to all tools</a>
+  </footer>
+
+</div>
+
+<script>
+// === CORE MATH (pure functions — unit-tested) ===
+function computeWholesale(inp){
+  var mao = inp.arv * inp.factor - inp.repairs - inp.fee;
+  var spread = mao - inp.asking;
+  var feeAchievable = mao + inp.fee - inp.asking;
+  var totalCash = inp.asking + inp.repairs + inp.closing;
+  var verdict, verdictClass;
+  if (inp.asking <= mao){
+    verdict = "DEAL"; verdictClass = "deal";
+  } else if (feeAchievable > 0){
+    verdict = "TIGHT"; verdictClass = "tight";
+  } else {
+    verdict = "WALK AWAY"; verdictClass = "walk";
+  }
+  return {
+    mao: mao,
+    spread: spread,
+    feeAchievable: feeAchievable,
+    totalCash: totalCash,
+    verdict: verdict,
+    verdictClass: verdictClass
+  };
+}
+function monthlyPI(principal, annualRatePct, years){
+  var r = annualRatePct / 100 / 12;
+  var n = years * 12;
+  if (principal <= 0) return 0;
+  if (r <= 0) return principal / n;
+  var f = Math.pow(1 + r, n);
+  return principal * r * f / (f - 1);
+}
+// === END CORE MATH ===
+
+  function val(id){
+    var v = document.getElementById(id).value;
+    var n = parseFloat(v);
+    return isNaN(n) ? 0 : n;
+  }
+  function money0(n){
+    var sign = n < 0 ? "-$" : "$";
+    return sign + Math.abs(Math.round(n)).toLocaleString("en-US");
+  }
+
+  function calculate(){
+    var inp = {
+      arv: val("arv"),
+      repairs: val("repairs"),
+      asking: val("asking"),
+      fee: val("fee"),
+      closing: val("closing"),
+      factor: val("factor")
+    };
+    var out = computeWholesale(inp);
+    document.getElementById("maoOut").textContent = money0(out.mao);
+    document.getElementById("spreadOut").textContent = money0(out.spread);
+    document.getElementById("feeOut").textContent = money0(out.feeAchievable);
+    document.getElementById("cashOut").textContent = money0(out.totalCash);
+
+    var box = document.getElementById("verdictBox");
+    box.className = "verdict " + out.verdictClass;
+    document.getElementById("verdictWord").textContent = out.verdict;
+    var detail = "";
+    if (out.verdict === "DEAL"){
+      detail = "Asking " + money0(inp.asking) + " is at or below your max offer of " + money0(out.mao) +
+        " — the full " + money0(inp.fee) + " fee fits with room to spare.";
+    } else if (out.verdict === "TIGHT"){
+      detail = "A fee of " + money0(out.feeAchievable) + " is achievable at the asking price, but that's below your " +
+        money0(inp.fee) + " target. Negotiate the price down toward " + money0(out.mao) + " or accept a thinner fee.";
+    } else {
+      detail = "At the asking price of " + money0(inp.asking) + " no assignment fee remains at a " +
+        inp.factor.toFixed(2) + " purchase factor. The price has to come down to " + money0(out.mao) + " or below.";
+    }
+    document.getElementById("verdictDetail").textContent = detail;
+  }
+
+  var inputs = document.querySelectorAll("input");
+  for (var i = 0; i < inputs.length; i++){
+    inputs[i].addEventListener("input", calculate);
+  }
+  calculate();
+</script>
+</body>
+</html>
